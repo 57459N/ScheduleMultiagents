@@ -8,56 +8,56 @@
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "1",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 1,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "5",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 1,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "6",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 1,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "7",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 1,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "4",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 1,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "5",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 1,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "6",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 1,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "7",
-                    "subgroup": null
+                    "subgroup": 1
                 }
             ],
             "subject": {
@@ -76,28 +76,28 @@
                     "flow": 1,
                     "speciality": "ПИ",
                     "number": "1",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 2,
                     "flow": 1,
                     "speciality": "ПИ",
                     "number": "5",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 2,
                     "flow": 1,
                     "speciality": "ПИ",
                     "number": "6",
-                    "subgroup": null
+                    "subgroup": 1
                 },
                 {
                     "group_id": 2,
                     "flow": 1,
                     "speciality": "ПИ",
                     "number": "7",
-                    "subgroup": null
+                    "subgroup": 1
                 }
             ],
             "subject": {
@@ -173,6 +173,8 @@
             "schedule": [
                 [
                     1,
+                    2,
+                    3,
                     4
                 ],
                 [
