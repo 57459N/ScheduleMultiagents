@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class Group(BaseModel):
@@ -27,6 +28,13 @@ class Lesson(BaseModel):
     type: str
     length: int
     teacher: int
+    is_set: Optional[bool]
+
+    def get_groud_ids(self) -> list[int]:
+        ids = []
+        for group in self.group:
+            ids.append(group.group_id)
+        return ids
 
 
 class Lessons(BaseModel):
@@ -41,3 +49,7 @@ class Lessons(BaseModel):
         elif lesson.type == 'Лаболаторные':
             les_type = 'ЛАБ'
         return lesson.subject.name, les_type, teacher.name
+
+    def get_group(self, id):
+        lesson = [x for x in self.lessons if x.id == id][0]
+        return lesson.group

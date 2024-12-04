@@ -4,28 +4,28 @@
             "id": 1,
             "group": [
                 {
-                    "group_id": 1,
+                    "group_id": 13,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "1",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 6,
+                    "group_id": 15,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "6",
                     "subgroup": 2
                 },
                 {
-                    "group_id": 10,
+                    "group_id": 9,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "4",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 13,
+                    "group_id": 12,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "7",
@@ -44,21 +44,21 @@
             "id": 2,
             "group": [
                 {
-                    "group_id": 8,
+                    "group_id": 3,
                     "flow": 1,
                     "speciality": "РФ",
                     "number": "3",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 11,
+                    "group_id": 5,
                     "flow": 1,
                     "speciality": "РФ",
                     "number": "8",
                     "subgroup": 2
                 },
                 {
-                    "group_id": 3,
+                    "group_id": 7,
                     "flow": 1,
                     "speciality": "АРИСТ",
                     "number": "2",
@@ -69,7 +69,7 @@
                 "sub_id": 2,
                 "name": "Программирование"
             },
-            "type": "Лаболаторные",
+            "type": "Лабораторные",
             "length": 2,
             "teacher": 2
         },
@@ -77,21 +77,21 @@
             "id": 3,
             "group": [
                 {
-                    "group_id": 9,
+                    "group_id": 6,
                     "flow": 1,
                     "speciality": "ФЭ",
                     "number": "3",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 7,
+                    "group_id": 4,
                     "flow": 1,
                     "speciality": "РФ",
                     "number": "4",
                     "subgroup": 2
                 },
                 {
-                    "group_id": 12,
+                    "group_id": 8,
                     "flow": 1,
                     "speciality": "АРИСТ",
                     "number": "8",
@@ -110,14 +110,14 @@
             "id": 4,
             "group": [
                 {
-                    "group_id": 2,
+                    "group_id": 10,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "5",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 4,
+                    "group_id": 11,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "6",
@@ -128,7 +128,7 @@
                 "sub_id": 4,
                 "name": "История"
             },
-            "type": "Лаболаторные",
+            "type": "Лабораторные",
             "length": 2,
             "teacher": 1
         },
@@ -136,14 +136,14 @@
             "id": 5,
             "group": [
                 {
-                    "group_id": 5,
+                    "group_id": 16,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "7",
                     "subgroup": 2
                 },
                 {
-                    "group_id": 2,
+                    "group_id": 14,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "5",
@@ -162,21 +162,21 @@
             "id": 6,
             "group": [
                 {
-                    "group_id": 3,
+                    "group_id": 7,
                     "flow": 1,
                     "speciality": "АРИСТ",
                     "number": "2",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 14,
+                    "group_id": 1,
                     "flow": 1,
                     "speciality": "РФ",
                     "number": "1",
                     "subgroup": 3
                 },
                 {
-                    "group_id": 9,
+                    "group_id": 6,
                     "flow": 1,
                     "speciality": "ФЭ",
                     "number": "3",
@@ -187,7 +187,7 @@
                 "sub_id": 6,
                 "name": "Экономика"
             },
-            "type": "Лаболаторные",
+            "type": "Лабораторные",
             "length": 2,
             "teacher": 6
         },
@@ -195,14 +195,14 @@
             "id": 7,
             "group": [
                 {
-                    "group_id": 1,
+                    "group_id": 13,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "1",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 13,
+                    "group_id": 12,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "7",
@@ -213,7 +213,7 @@
                 "sub_id": 7,
                 "name": "Философия"
             },
-            "type": "Лаболаторные",
+            "type": "Лабораторные",
             "length": 1,
             "teacher": 7
         },
@@ -221,14 +221,14 @@
             "id": 8,
             "group": [
                 {
-                    "group_id": 5,
+                    "group_id": 16,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "7",
                     "subgroup": 2
                 },
                 {
-                    "group_id": 11,
+                    "group_id": 5,
                     "flow": 1,
                     "speciality": "РФ",
                     "number": "8",
@@ -247,14 +247,14 @@
             "id": 9,
             "group": [
                 {
-                    "group_id": 4,
+                    "group_id": 11,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "6",
                     "subgroup": 3
                 },
                 {
-                    "group_id": 9,
+                    "group_id": 6,
                     "flow": 1,
                     "speciality": "ФЭ",
                     "number": "3",
@@ -265,7 +265,7 @@
                 "sub_id": 9,
                 "name": "Теория вероятностей"
             },
-            "type": "Лаболаторные",
+            "type": "Лабораторные",
             "length": 2,
             "teacher": 4
         }
