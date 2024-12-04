@@ -11,159 +11,263 @@
                     "subgroup": 1
                 },
                 {
-                    "group_id": 1,
-                    "flow": 2,
-                    "speciality": "ПИ",
-                    "number": "5",
-                    "subgroup": 1
-                },
-                {
-                    "group_id": 1,
+                    "group_id": 6,
                     "flow": 2,
                     "speciality": "ПИ",
                     "number": "6",
-                    "subgroup": 1
+                    "subgroup": 2
                 },
                 {
-                    "group_id": 1,
-                    "flow": 2,
-                    "speciality": "ПИ",
-                    "number": "7",
-                    "subgroup": 1
-                },
-                {
-                    "group_id": 1,
+                    "group_id": 10,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "4",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 1,
-                    "flow": 2,
-                    "speciality": "КБ",
-                    "number": "5",
-                    "subgroup": 1
-                },
-                {
-                    "group_id": 1,
-                    "flow": 2,
-                    "speciality": "КБ",
-                    "number": "6",
-                    "subgroup": 1
-                },
-                {
-                    "group_id": 1,
+                    "group_id": 13,
                     "flow": 2,
                     "speciality": "КБ",
                     "number": "7",
-                    "subgroup": 1
+                    "subgroup": 3
                 }
             ],
             "subject": {
                 "sub_id": 1,
-                "name": "Стат РФ"
+                "name": "Математика"
             },
             "type": "Лекция",
             "length": 1,
-            "teacher": 1
+            "teacher": 3
         },
         {
             "id": 2,
             "group": [
                 {
-                    "group_id": 1,
+                    "group_id": 8,
                     "flow": 1,
-                    "speciality": "ПИ",
-                    "number": "1",
+                    "speciality": "РФ",
+                    "number": "3",
                     "subgroup": 1
                 },
                 {
-                    "group_id": 2,
+                    "group_id": 11,
                     "flow": 1,
-                    "speciality": "ПИ",
-                    "number": "5",
-                    "subgroup": 1
+                    "speciality": "РФ",
+                    "number": "8",
+                    "subgroup": 2
                 },
                 {
-                    "group_id": 2,
+                    "group_id": 3,
                     "flow": 1,
-                    "speciality": "ПИ",
-                    "number": "6",
-                    "subgroup": 1
-                },
-                {
-                    "group_id": 2,
-                    "flow": 1,
-                    "speciality": "ПИ",
-                    "number": "7",
-                    "subgroup": 1
+                    "speciality": "АРИСТ",
+                    "number": "2",
+                    "subgroup": 3
                 }
             ],
             "subject": {
-                "sub_id": 1,
-                "name": "Боба"
+                "sub_id": 2,
+                "name": "Программирование"
             },
-            "type": "Лекция",
-            "length": 1,
-            "teacher": 1
+            "type": "Лаболаторные",
+            "length": 2,
+            "teacher": 2
         },
         {
             "id": 3,
             "group": [
                 {
-                    "group_id": 1,
+                    "group_id": 9,
                     "flow": 1,
-                    "speciality": "ПИ",
-                    "number": "5",
+                    "speciality": "ФЭ",
+                    "number": "3",
                     "subgroup": 1
+                },
+                {
+                    "group_id": 7,
+                    "flow": 1,
+                    "speciality": "РФ",
+                    "number": "4",
+                    "subgroup": 2
+                },
+                {
+                    "group_id": 12,
+                    "flow": 1,
+                    "speciality": "АРИСТ",
+                    "number": "8",
+                    "subgroup": 3
                 }
             ],
             "subject": {
-                "sub_id": 1,
-                "name": "Чыхпых"
+                "sub_id": 3,
+                "name": "Физика"
             },
-            "type": "Лабораторные",
+            "type": "Лекция",
             "length": 1,
-            "teacher": 1
+            "teacher": 4
         },
         {
             "id": 4,
             "group": [
                 {
-                    "group_id": 1,
-                    "flow": 1,
-                    "speciality": "ПИ",
+                    "group_id": 2,
+                    "flow": 2,
+                    "speciality": "КБ",
                     "number": "5",
                     "subgroup": 1
+                },
+                {
+                    "group_id": 4,
+                    "flow": 2,
+                    "speciality": "КБ",
+                    "number": "6",
+                    "subgroup": 3
                 }
             ],
             "subject": {
-                "sub_id": 1,
-                "name": "Стат РФ"
+                "sub_id": 4,
+                "name": "История"
             },
-            "type": "Лабораторные",
-            "length": 1,
+            "type": "Лаболаторные",
+            "length": 2,
             "teacher": 1
         },
         {
             "id": 5,
             "group": [
                 {
-                    "group_id": 1,
-                    "flow": 1,
+                    "group_id": 5,
+                    "flow": 2,
+                    "speciality": "ПИ",
+                    "number": "7",
+                    "subgroup": 2
+                },
+                {
+                    "group_id": 2,
+                    "flow": 2,
                     "speciality": "ПИ",
                     "number": "5",
+                    "subgroup": 1
+                }
+            ],
+            "subject": {
+                "sub_id": 5,
+                "name": "Алгебра"
+            },
+            "type": "Лекция",
+            "length": 1,
+            "teacher": 5
+        },
+        {
+            "id": 6,
+            "group": [
+                {
+                    "group_id": 3,
+                    "flow": 1,
+                    "speciality": "АРИСТ",
+                    "number": "2",
+                    "subgroup": 1
+                },
+                {
+                    "group_id": 14,
+                    "flow": 1,
+                    "speciality": "РФ",
+                    "number": "1",
+                    "subgroup": 3
+                },
+                {
+                    "group_id": 9,
+                    "flow": 1,
+                    "speciality": "ФЭ",
+                    "number": "3",
                     "subgroup": 2
                 }
             ],
             "subject": {
-                "sub_id": 1,
-                "name": "Пісяпопа"
+                "sub_id": 6,
+                "name": "Экономика"
             },
-            "type": "Лабораторные",
+            "type": "Лаболаторные",
+            "length": 2,
+            "teacher": 6
+        },
+        {
+            "id": 7,
+            "group": [
+                {
+                    "group_id": 1,
+                    "flow": 2,
+                    "speciality": "ПИ",
+                    "number": "1",
+                    "subgroup": 1
+                },
+                {
+                    "group_id": 13,
+                    "flow": 2,
+                    "speciality": "КБ",
+                    "number": "7",
+                    "subgroup": 3
+                }
+            ],
+            "subject": {
+                "sub_id": 7,
+                "name": "Философия"
+            },
+            "type": "Лаболаторные",
             "length": 1,
-            "teacher": 1
+            "teacher": 7
+        },
+        {
+            "id": 8,
+            "group": [
+                {
+                    "group_id": 5,
+                    "flow": 2,
+                    "speciality": "ПИ",
+                    "number": "7",
+                    "subgroup": 2
+                },
+                {
+                    "group_id": 11,
+                    "flow": 1,
+                    "speciality": "РФ",
+                    "number": "8",
+                    "subgroup": 2
+                }
+            ],
+            "subject": {
+                "sub_id": 8,
+                "name": "Сети"
+            },
+            "type": "Лекция",
+            "length": 1,
+            "teacher": 8
+        },
+        {
+            "id": 9,
+            "group": [
+                {
+                    "group_id": 4,
+                    "flow": 2,
+                    "speciality": "КБ",
+                    "number": "6",
+                    "subgroup": 3
+                },
+                {
+                    "group_id": 9,
+                    "flow": 1,
+                    "speciality": "ФЭ",
+                    "number": "3",
+                    "subgroup": 1
+                }
+            ],
+            "subject": {
+                "sub_id": 9,
+                "name": "Теория вероятностей"
+            },
+            "type": "Лаболаторные",
+            "length": 2,
+            "teacher": 4
         }
     ],
     "teachers": [
@@ -197,6 +301,168 @@
                 [
                     1,
                     4
+                ]
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Иванов П. А.",
+            "schedule": [
+                [
+                    2,
+                    3,
+                    5
+                ],
+                [
+                    1,
+                    2,
+                    6
+                ],
+                [
+                    3,
+                    5
+                ],
+                [
+                    2,
+                    6
+                ],
+                [
+                    1,
+                    3
+                ],
+                [
+                    1,
+                    5,
+                    6
+                ]
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Смирнова Т. В.",
+            "schedule": [
+                [
+                    1,
+                    4,
+                    5
+                ],
+                [
+                    2,
+                    3
+                ],
+                [
+                    4,
+                    5
+                ],
+                [
+                    1,
+                    3,
+                    6
+                ],
+                [
+                    1,
+                    2
+                ],
+                [
+                    4,
+                    6
+                ]
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Козлов Д. С.",
+            "schedule": [
+                [
+                    1,
+                    3
+                ],
+                [
+                    4,
+                    6
+                ],
+                [
+                    2,
+                    4
+                ],
+                [
+                    3,
+                    5
+                ],
+                [
+                    1,
+                    2,
+                    4
+                ],
+                [
+                    3,
+                    5
+                ]
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Миронова А. Н.",
+            "schedule": [
+                [
+                    2,
+                    4,
+                    6
+                ],
+                [
+                    1,
+                    3,
+                    5
+                ],
+                [
+                    1,
+                    2,
+                    6
+                ],
+                [
+                    3,
+                    4
+                ],
+                [
+                    2,
+                    5
+                ],
+                [
+                    4,
+                    5,
+                    6
+                ]
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Васильев Г. П.",
+            "schedule": [
+                [
+                    1,
+                    5
+                ],
+                [
+                    3,
+                    4,
+                    6
+                ],
+                [
+                    2,
+                    4
+                ],
+                [
+                    1,
+                    3
+                ],
+                [
+                    5,
+                    6
+                ],
+                [
+                    2,
+                    4,
+                    6
                 ]
             ]
         }

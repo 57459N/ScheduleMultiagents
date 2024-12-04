@@ -1,14 +1,17 @@
 import pandas as pd
 from entities import *
 import openpyxl as xl
-from openpyxl.styles import Alignment
+from openpyxl.styles import Alignment, PatternFill, Font
 from openpyxl.styles.borders import Border, Side
+from openpyxl.cell.text import InlineFont
+from openpyxl.cell.rich_text import TextBlock, CellRichText
 import subprocess
+import math
 
 import json
 
-LEC_COLOR = '#a98be5'
-LAB_COLOR = '#f7d483'
+LEC_COLOR = 'a98be5'
+LAB_COLOR = 'f7d483'
 
 LESSON_TIME = [
     '9:00 - 10:20',
@@ -53,7 +56,7 @@ f = open('data/data.json', 'r')
 data = json.load(f)
 f.close()
 lessons = Lessons(**data)
-schedule_df = pd.read_csv('data/example-1.csv')
+schedule_df = pd.read_csv('data/example-1.csv', sep=';')
 
 
 def set_border(ws, cell_range, border, overwrite=False):
@@ -92,6 +95,7 @@ ws['b1'] = 'Пара'
 ws['b1'].alignment = Alignment(text_rotation=90)
 
 ws['c1'] = 'Время\nзанятий'
+ws['c1'].alignment = Alignment(wrap_text=True)
 
 for i, day in zip(range(2, 43, 8), WEEK_DAYS):
     ws.merge_cells(range_string=(f'A{i}:A{i+7}'))
@@ -104,22 +108,10 @@ for i in range(0, 48):
     ws[f'c{i+2}'] = LESSON_TIME[i % 8]
 
 for i in range(0, 16):
-    ws.cell(row=1, column=i+4).value = GROUPS[i]
-
-# * CHANGE SIZES
-ws.column_dimensions['A'].width = 3.3
-ws.column_dimensions['B'].width = 3.3
-ws.column_dimensions['C'].width = 12
-for i in range(1, 50):
-    ws.row_dimensions[i+1].height = 25
-
-# * SET BORDERS
-for i in range(1, 50, 8):
-    set_border(ws, f'A{i}:S{i}', Border(bottom=Side(style='medium')))
-
-for c in range(ord('C'), ord('S')+1):
-    c = chr(c)
-    set_border(ws, f'{c}1:{c}49', Border(right=Side(style='medium')))
+    cell = ws.cell(row=1, column=i+4)
+    cell.font = Font(sz=18)
+    cell.value = GROUPS[i]
+    cell.alignment = Alignment('center', 'center')
 
 
 # * HIDE UNNECESSARY COLUMNS
@@ -127,7 +119,60 @@ last_column = xl.utils.cell.column_index_from_string('XFD')
 for idx in range(20, last_column+1):
     ws.column_dimensions[xl.utils.get_column_letter(idx)].hidden = True
 
-# ws.row_dimensions.group(start=50, end=1048576, hidden=True)
+# * CHANGE SIZES
+ws.column_dimensions['A'].width = 3.3
+ws.column_dimensions['B'].width = 3.3
+ws.column_dimensions['C'].width = 12
+for i in range(1, 50):
+    ws.row_dimensions[i+1].height = 70
+for i in range(ord('D'), ord('S')+1):
+    ws.column_dimensions[chr(i)].width = 20
+
+
+# * HANDLE CSV
+for i, group in enumerate(GROUPS):
+    for j, id in enumerate(schedule_df[group].to_list()):
+        if math.isnan(id):
+            continue
+        cell = ws.cell(row=j+2, column=i+4)
+        les_name, les_type, teach_name = lessons.get_lesson(int(id))
+        text = CellRichText(
+            les_name + '\n',
+            TextBlock(InlineFont(b=True), les_type + '\n'),
+            teach_name,
+        )
+        cell.value = text
+        if les_type == 'ЛК':
+            color = PatternFill(start_color=LEC_COLOR,
+                                end_color=LEC_COLOR, fill_type="solid")
+        elif les_type == 'ЛАБ':
+            color = PatternFill(start_color=LAB_COLOR,
+                                end_color=LAB_COLOR, fill_type="solid")
+        cell.fill = color
+        cell.alignment = Alignment(
+            horizontal='center', vertical='center', wrap_text=True)
+
+
+# * MERGE COLUMNS
+for i in range(4, ws.max_column):
+    for j in range(2, ws.max_row):
+        cell1 = ws.cell(j, i)
+        cell2 = ws.cell(j, i+1)
+        if cell1.value == cell2.value and \
+           cell1.value != None:
+            ws.merge_cells(start_row=j, start_column=i,
+                           end_row=j, end_column=i+1)
+
+# * SET BORDERS
+for i in range(1, 50):
+    set_border(ws, f'A{i}:S{i}', Border(bottom=Side(style='thin')))
+
+for i in range(1, 50, 8):
+    set_border(ws, f'A{i}:S{i}', Border(bottom=Side(style='medium')))
+
+for c in range(ord('C'), ord('S')+1):
+    c = chr(c)
+    set_border(ws, f'{c}1:{c}49', Border(right=Side(style='medium')))
 
 wb.save('test.xlsx')
 subprocess.Popen('open test.xlsx', shell=True)
