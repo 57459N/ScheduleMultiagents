@@ -1,13 +1,14 @@
 from entities import *
+import pandas as pd
 import json
-from pprint import pprint
+from constants import *
 
 
 class ScheduleGenerator():
     def __init__(self, lessons: list[Lesson], teachers: list[Teacher]):
         # * first colum – lesson counter in day
         # * others – lessons ids
-        self.table = [[None]*48]*16
+        self.table = [[None] * 48 for _ in range(17)]
         for i in range(0, 48):
             self.table[0][i] = i % 8 + 1
         self.lessons = lessons
@@ -21,17 +22,18 @@ class ScheduleGenerator():
                 return teacher.schedule[day]
 
     def __get_lesson_by_type(self, type: str):
+        lessons = []
         for lesson in self.lessons:
             if lesson.type == type:
-                yield lesson
-
+                lessons.append(lesson)
+        return lessons
         # def __get_group_id()
 
     def generate(self):
         lectures = self.__get_lesson_by_type('Лекция')
         labs = self.__get_lesson_by_type('Лабораторные')
         for day in range(0, 6):
-            for group in range(1, 17):
+            for group in range(1, 15):
                 for lesson in range(0, 8):
                     idx = (day * 8) + lesson
                     if self.table[group][idx] == None:
@@ -65,13 +67,17 @@ class ScheduleGenerator():
                                 lab.is_set = True
         return self.table
 
+    def to_csv(self, path):
+        days = []
+        for day in WEEK_DAYS:
+            for _ in range(8):
+                days.append(day)
+        schedule = pd.DataFrame({'day': days})
+        schedule = schedule.assign(lesson=self.table[0])
+        for group, group_schedule in zip(GROUPS, self.table[1:]):
+            schedule[group] = group_schedule
 
-if __name__ == '__main__':
-    f = open('data/data.json', 'r')
-    data = json.load(f)
-    f.close()
-    lessons = Lessons(**data)
-
-    a = ScheduleGenerator(lessons.lessons, lessons.teachers)
-    aboba = a.generate()
-    print(aboba)
+        # ! DEBUG
+        print(schedule)
+        print(schedule.count().sum() - 48 * 2)
+        schedule.to_csv(path, sep=';', index=False)

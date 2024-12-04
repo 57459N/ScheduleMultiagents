@@ -28,7 +28,7 @@ class Lesson(BaseModel):
     type: str
     length: int
     teacher: int
-    is_set: Optional[bool]
+    is_set: bool = False
 
     def get_groud_ids(self) -> list[int]:
         ids = []
@@ -46,7 +46,7 @@ class Lessons(BaseModel):
         teacher = [x for x in self.teachers if x.id == lesson.teacher][0]
         if lesson.type == 'Лекция':
             les_type = 'ЛК'
-        elif lesson.type == 'Лаболаторные':
+        elif lesson.type == 'Лабораторные':
             les_type = 'ЛАБ'
         return lesson.subject.name, les_type, teacher.name
 

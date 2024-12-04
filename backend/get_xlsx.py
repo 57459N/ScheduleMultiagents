@@ -10,7 +10,9 @@ import math
 
 import json
 
-LEC_COLOR = 'a98be5'
+# ! deprecated :)
+
+LEC_COLOR = '89c4f5'
 LAB_COLOR = 'f7d483'
 
 LESSON_TIME = [
@@ -32,25 +34,6 @@ WEEK_DAYS = [
     'ПЯТНИЦА',
     'СУББОТА',
 ]
-
-GROUPS_ID = {
-    '1 РФ': 1,
-    '2 РФ': 2,
-    '3 РФ': 3,
-    '4 РФ': 4,
-    '8 РФ': 5,
-    '3 ФЭ': 6,
-    '2 АРИСТ': 7,
-    '8 АРИСТ': 8,
-    '4 КБ': 9,
-    '5 КБ': 10,
-    '6 КБ': 11,
-    '7 КБ': 12,
-    '1 ПИ': 13,
-    '5 ПИ': 14,
-    '6 ПИ': 15,
-    '7 ПИ': 16
-}
 
 GROUPS = [
     '1 РФ',
@@ -102,6 +85,58 @@ def set_border(ws, cell_range, border, overwrite=False):
                     top=new_border['top'] if new_border['top'] else saved_border['top'],
                     bottom=new_border['bottom'] if new_border['bottom'] else saved_border['bottom'],
                 )
+
+
+def get_merge_range(ws, row: int, col: int, mode='hor'):
+    next_row = row
+    next_col = col
+
+    while True:
+        if mode == 'hor':
+            next_col = col+1
+        elif mode == 'ver':
+            next_row = row+1
+
+        if ws.cell(row, col).value == ws.cell(next_row, next_col).value:
+            row = next_row
+            col = next_col
+        else:
+            break
+    return row, col
+
+
+def merge_cells(ws):
+    i = 2
+    while i < ws.max_row:  # merge columns
+        j = 4
+        while j < ws.max_column:
+            f_value = ws.cell(i, j).value
+            s_value = ws.cell(i, j+1).value
+            if f_value == s_value and \
+                    f_value != None:
+                row, col = get_merge_range(ws, i, j, 'hor')
+                ws.merge_cells(start_row=i, start_column=j,
+                               end_row=row, end_column=col)
+                i = row
+                j = col
+            j += 1
+        i += 1
+
+    i = 4
+    while i < ws.max_column:  # merge rows
+        j = 2
+        while j < ws.max_row:
+            f_value = ws.cell(j, i).value
+            s_value = ws.cell(j+1, i).value
+            if f_value == s_value and \
+                    f_value != None:
+                row, col = get_merge_range(ws, j, i, 'ver')
+                ws.merge_cells(start_row=j, start_column=i,
+                               end_row=row, end_column=col)
+                i = col
+                j = row
+            j += 1
+        i += 1
 
 
 wb = xl.Workbook()
@@ -174,26 +209,24 @@ for i, group in enumerate(GROUPS):
             horizontal='center', vertical='center', wrap_text=True)
 
 
-# * MERGE COLUMNS
-for i in range(4, ws.max_column):
-    for j in range(2, ws.max_row):
-        cell1 = ws.cell(j, i)
-        cell2 = ws.cell(j, i+1)
-        if cell1.value == cell2.value and \
-           cell1.value != None:
-            ws.merge_cells(start_row=j, start_column=i,
-                           end_row=j, end_column=i+1)
+# * MERGE CELLS
+merge_cells(ws)
 
 # * SET BORDERS
 for i in range(1, 50):
-    set_border(ws, f'A{i}:S{i}', Border(bottom=Side(style='thin')))
+    if (i - 1) % 8 == 0:
+        set_border(ws, f'A{i}:S{i}', Border(bottom=Side(style='medium')))
+    else:
+        set_border(ws, f'A{i}:S{i}', Border(bottom=Side(style='thin')))
 
-for i in range(1, 50, 8):
-    set_border(ws, f'A{i}:S{i}', Border(bottom=Side(style='medium')))
 
-for c in range(ord('C'), ord('S')+1):
+for c in range(ord('A'), ord('S')+1):
+    if c < ord('C'):
+        style = 'thin'
+    else:
+        style = 'medium'
     c = chr(c)
-    set_border(ws, f'{c}1:{c}49', Border(right=Side(style='medium')))
+    set_border(ws, f'{c}1:{c}49', Border(right=Side(style=style)))
 
 wb.save('test.xlsx')
 subprocess.Popen('open test.xlsx', shell=True)
