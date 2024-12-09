@@ -52,7 +52,7 @@ class Generator():
                                 and day_index < len(teacher_schedule)
                                 and lesson.id in teacher_schedule[day_index]
                         ):
-                            self.dict_table[group_key][day].append(lesson['lesson_id'])
+                            self.dict_table[group_key][day].append(lesson.id)
                             break
 
     def choose_labs(self):
@@ -65,7 +65,7 @@ class Generator():
                                 isinstance(self.dict_table[group_key][day], list) and
                                 len(self.dict_table[group_key][
                                         day]) < 5 and
-                                day_index < len(self.teachers[0]['schedule'])
+                                day_index < len(self.teachers[0].schedule)
                         ):
                             is_conflict = False
                             for other_group_key in self.dict_table:
