@@ -3,9 +3,8 @@ import pandas as pd
 import json
 from constants import *
 
-
 class Generator():
-    def __init__(self, lessons, teachers):
+    def __init__(self, lessons: list[Lesson], teachers: list[Teacher]):
         self.lessons = lessons
         self.teachers = teachers
 
@@ -38,7 +37,7 @@ class Generator():
         for group_key, lessons in self.dict_group.items():
             for lesson in lessons:
                 if lesson.type == "Лекция":
-                    teacher_id = lesson.type
+                    teacher_id = lesson.teacher
                     teacher_schedule = next(
                         (t.schedule for t in self.teachers if t.id == teacher_id), None
                     )
@@ -52,30 +51,43 @@ class Generator():
                                 and day_index < len(teacher_schedule)
                                 and lesson.id in teacher_schedule[day_index]
                         ):
-                            self.dict_table[group_key][day].append(lesson.id)
+                            self.dict_table[group_key][day].append(lesson)
+
+                            # Удаляем свободное время преподавателя для этого дня и пары
+                            if teacher_schedule[day_index]:
+                                teacher_schedule[day_index] = [
+                                    subject for subject in teacher_schedule[day_index] if subject != lesson.id
+                                ]
                             break
 
     def choose_labs(self):
         for group_key, lessons in self.dict_group.items():
             for lesson in lessons:
                 if lesson.type == "Лабораторные":
+                    teacher_id = lesson.teacher
+                    teacher_schedule = next(
+                        (t.schedule for t in self.teachers if t.id == teacher_id), None
+                    )
+                    if not teacher_schedule:
+                        continue
                     for day in self.dict_table[group_key]:
                         day_index = int(day) - 1
                         if (
-                                isinstance(self.dict_table[group_key][day], list) and
-                                len(self.dict_table[group_key][
-                                        day]) < 5 and
-                                day_index < len(self.teachers[0].schedule)
+                                isinstance(self.dict_table[group_key][day], list)
+                                and len(self.dict_table[group_key][day]) < 5
+                                and day_index < len(teacher_schedule)
+                                and lesson.id in teacher_schedule[day_index]
                         ):
-                            is_conflict = False
-                            for other_group_key in self.dict_table:
-                                if other_group_key != group_key:
-                                    if lesson.id in self.dict_table[other_group_key][day]:
-                                        is_conflict = True
-                                        break
-                            if not is_conflict:
-                                self.dict_table[group_key][day].append(lesson.id)
-                                break
+                            self.dict_table[group_key][day].append(lesson)
+
+                            # Удаляем свободное время преподавателя для этого дня и пары
+                            if teacher_schedule[day_index]:
+                                teacher_schedule[day_index] = [
+                                    subject for subject in teacher_schedule[day_index] if subject != lesson.id
+                                ]
+                            break
+
+
 
     def generate_schedule(self):
         for lesson in self.lessons:
@@ -85,34 +97,35 @@ class Generator():
 
         self.choose_labs()
 
-    def to_csv(self, path):
+    def print_schedule(self):
         WEEK_DAYS = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
-        GROUPS = [str(i) for i in range(1, 17)]  # Группы от 1 до 16
 
-        days = []
-        for _ in range(6):  # 6 дней недели
-            for _ in range(8):  # 8 занятий в день
-                days.append(_)
+        for group_key, schedule in self.dict_table.items():
+            print(f"Группа {group_key}:")
+            for day_index, lessons in schedule.items():
+                day_name = WEEK_DAYS[int(day_index) - 1]
+                print(f"Lessons: {lessons}")
+                lesson_info = ", ".join([lesson.get('subject', 'Неизвестный предмет') for lesson in lessons])
+                print(f"  {day_name}: {lesson_info if lesson_info else 'Нет занятий'}")
+            print("-" * 40)
 
-        schedule_data = []
+    def schedule_csv(self, path):
+        WEEK_DAYS = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
 
-        for group in GROUPS:
-            group_schedule = []
-            for day in range(1, 7):  # Для каждого дня недели
-                day_schedule = self.dict_table[group].get(str(day), [])
-                group_schedule.extend(
-                    [lesson.get('subject', '') for lesson in day_schedule] + [''] * (8 - len(day_schedule)))
+        data = []
 
-            schedule_data.append(group_schedule)
+        for group, days in dict_table.items():
+            for day_index, lessons in days.items():
+                # Проверяем, есть ли занятия в этот день
+                day_name = WEEK_DAYS[int(day_index) - 1]
+                subject_list = ', '.join([lesson['subject'] for lesson in lessons]) if lessons else ''
 
-        schedule = pd.DataFrame(schedule_data, columns=[f'Занятие {i + 1}' for i in range(8)] * 6, index=GROUPS)
+                data.append({
+                    'Group': group,
+                    'Day': day_name,
+                    'Lessons': subject_list
+                })
 
-        schedule = schedule.transpose().reset_index()
-        schedule.columns = ['День недели'] + [f'Группа {i}' for i in range(1, 17)]
+        df = pd.DataFrame(data)
 
-        schedule.to_csv(path, sep=';', index=False)
-
-        print(schedule)
-        print(schedule.count().sum() - 48 * 2)
-        print(f"CSV файл '{path}' успешно создан!")
-
+        df.to_csv('data/schedule.csv', sep=';', index=False)
