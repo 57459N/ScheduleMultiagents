@@ -1,0 +1,51 @@
+.logo__wrapper svg {
+  fill: var(--background);
+  width: 50px;
+  transition: all 0.3s ease-in-out;
+}
+.logo__wrapper:hover svg {
+  fill: var(--light);
+  transform: scale(1.1);
+}
+.header {
+  padding: 20px 0;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25);
+  background-color: var(--primary);
+  width: 100%;
+  margin-bottom: 60px;
+}
+.header__container {
+  max-width: 1440px;
+  padding: 0 50px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.header__btns {
+  display: flex;
+  gap: 15px;
+}
+.button {
+  cursor: pointer;
+  border: none;
+  padding: 10px 14px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  width: fit-content;
+  border-radius: 7px;
+  background-color: var(--background);
+  color: var(--primary);
+  transition: all 0.3s ease-in-out;
+}
+.button:hover {
+  background-color: var(--light);
+  transform: scale(1.1);
+}
+.button:focus {
+  background-color: var(--light);
+}
+.button:active {
+  background-color: var(--light);
+}

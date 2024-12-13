@@ -1,0 +1,56 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+}
+img {
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.list-reset {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+::-webkit-scrollbar {
+  width: 0;
+}
+:root {
+  --primary: rgba(10, 52, 112, 1);
+  --background: rgba(255, 255, 255, 1);
+  --grey: rgba(243, 244, 246, 1);
+  --black: rgb(31, 29, 46);
+  --border-grey: rgba(156, 163, 175, 1);
+  --light-blue: rgba(179, 206, 226, 1);
+  --hover-blue: rgb(13, 77, 166);
+  --focus-blue: rgb(19, 110, 237);
+  --blue: rgb(148, 187, 255);
+  --font-dark: rgba(24, 34, 51, 1);
+  /* --light-blue: rgba(0, 82, 255, 0.1); */
+  --green: rgba(118, 202, 102, 1);
+  --red: rgba(253, 78, 93, 1);
+  --back-grey: rgba(229, 229, 229, 1);
+  --light: rgb(229, 235, 245);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1440px;
+  padding: 0 50px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+input {
+  transition: all 0.3s ease-in-out;
+}

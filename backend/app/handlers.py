@@ -1,8 +1,11 @@
-from entities import *
+import json
+
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-import json
+
+from backend.app.entities import *
+
 
 app = FastAPI()
 

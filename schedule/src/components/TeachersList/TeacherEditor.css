@@ -1,0 +1,140 @@
+.teacher-list {
+  width: 400px;
+  border: 2px solid var(--primary);
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  border-radius: 14px;
+}
+
+.teacher-list__title {
+  padding: 20px;
+  font-size: 20px;
+  background-color: var(--primary);
+  width: 100%;
+  color: white;
+  letter-spacing: 1px;
+  border-radius: 10px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.teacher-list-content {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.teacher-list__container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.teacher-list-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+button:hover,
+button:focus {
+  opacity: 0.8;
+}
+
+.teacher-list-buttons-btn {
+  padding: 8px 20px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.teacher-list-buttons-btn_green {
+  background-color: var(--green);
+}
+
+.teacher-list-buttons-btn_red {
+  background-color: var(--red);
+}
+
+.teacher-list__item {
+  padding: 10px;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.teacher-list__item.adding {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.teacher-list__input {
+  flex-grow: 1;
+  padding: 5px;
+  margin-right: 5px;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.teacher-list__add-btn {
+  background-color: var(--green);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.teacher-list__add-btn:hover {
+  background-color: var(--green);
+}
+
+.teacher-list__item.selected {
+  background-color: #e6edf5;
+}
+
+.teacher-list__warning {
+  position: absolute;
+  right: 10px;
+  color: var(--red);
+}
+
+.teacher-list__actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.warning-icon {
+  margin-left: 10px;
+  color: var(--red);
+  font-size: 16px;
+}
+
+.teacher-list__item-input {
+  padding: 5px;
+  border: none;
+  width: 100%;
+  outline: none;
+}
+
+.teacher-list__item-btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--green);
+  color: white;
+}

@@ -1,7 +1,9 @@
-from entities import *
-import pandas as pd
 import json
-from constants import *
+
+import pandas as pd
+
+from backend.app.constants import *
+from backend.app.entities import *
 
 
 class ScheduleGenerator():

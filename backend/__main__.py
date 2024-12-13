@@ -1,20 +1,20 @@
-from ScheduleGenerator import *
-from Generator import *
-from SheetFormater import *
+from backend.app.ScheduleGenerator import *
+from backend.app.Generator import *
+from backend.app.SheetFormater import *
 
 # ? ONLY FOR DEBUG
 
-
 def main():
-    f = open('data/data.json', 'r')
+    f = open('./backend/app/data/data.json', 'r')
     data = json.load(f)
+    print(data)
     f.close()
     lessons = Lessons(**data)
     gen = Generator(lessons.lessons, lessons.teachers)
     gen.generate_schedule()
-    gen.schedule_csv()
+    gen.to_csv('./backend/app/data/example-3.csv')
 
-    formatter = SheetFormater('data/data.json', 'data/schedule.csv')
+    formatter = SheetFormater('./backend/app/data/data.json', 'backend/app/data/example-3.csv')
     formatter.format()
     formatter.save('test3.xlsx')
     subprocess.Popen('open test3.xlsx', shell=True)

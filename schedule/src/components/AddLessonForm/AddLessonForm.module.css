@@ -1,0 +1,70 @@
+.modal__overlay {
+  background-color: rgba(51, 51, 51, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+}
+.select__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 420px;
+
+  /* justify-content: center; */
+}
+.addLesson__box {
+  border: 1px solid var(--primary);
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  width: 100%;
+  background-color: var(--grey);
+  border-radius: 50px;
+  padding: 30px 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .addLesson__box.open {
+  transform: scale(1);
+} */
+.btn {
+  cursor: pointer;
+  border: none;
+  padding: 14px 24px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  width: fit-content;
+  border-radius: 7px;
+  background-color: var(--primary);
+  color: var(--background);
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background-color: var(--hover-blue);
+  transform: scale(1.1);
+}
+.btn:focus {
+  background-color: var(--hover-blue);
+}
+.btn:active {
+  background-color: var(--focus-blue);
+}
+.button__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0 0 0;
+  gap: 40px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

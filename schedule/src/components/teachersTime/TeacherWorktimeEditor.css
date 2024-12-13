@@ -1,0 +1,136 @@
+.teacher-worktime-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1000px;
+  margin: 0 auto;
+  border: 2px solid var(--primary);
+  border-radius: 18px;
+  margin-bottom: 14px;
+  margin-top: 18px;
+  padding-bottom: 30px;
+  background-color: var(--background);
+}
+
+.teacher-worktime-form-title {
+  padding: 20px;
+  font-size: 20px;
+  background-color: var(--primary);
+  width: 100%;
+  color: white;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.teacher-worktime-form-title-select {
+  padding: 5px 10px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.teacher-worktime-form-table-body-btn {
+  padding: 2px 3px;
+}
+
+.teacher-worktime-form-input-helpers {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding: 20px;
+}
+
+.teacher-worktime-form-input-helpers__item {
+  display: flex;
+  gap: 10px;
+}
+
+.teacher-worktime-form-table {
+  border-collapse: collapse;
+  border-bottom: 2px solid var(--primary-color);
+  border-top: 2px solid var(--primary-color);
+}
+
+.teacher-worktime-form-table-head {
+  border-bottom: 2px solid var(--primary-color);
+  background-color: #9dcaf9;
+}
+
+.teacher-worktime-form-table-head-ceil {
+  border-right: 2px solid #7eb0fb;
+
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.teacher-worktime-form-table-head-ceil:last-child {
+  border-right: none;
+}
+
+.teacher-worktime-form-table-body-ceil {
+  border-right: 2px solid var(--primary-color);
+  background-color: #cee1f5;
+  font-size: 16px;
+}
+
+.teacher-worktime-form-table-body-ceil-all {
+  border-bottom: 2px solid var(--primary-color);
+  border-right: 2px solid var(--primary-color);
+  background-color: #cee1f5;
+  font-size: 16px;
+}
+
+.teacher-worktime-form-table-body-ceil-all:first-child {
+  border-top: 2px solid var(--primary-color);
+}
+
+.teacher-worktime-form-table-body-ceil-with-input {
+  background-color: white;
+}
+
+.teacher-worktime-form-table-body-row {
+  border-top: 2px solid var(--primary-color);
+}
+
+.teacher-worktime-form-input-helpers__item-input {
+  pointer-events: none;
+  accent-color: var(--primary-color);
+}
+
+th,
+td {
+  text-align: center;
+  padding: 20px;
+  width: 150px;
+}
+
+.teacher-worktime-form-submit {
+  padding: 18px 60px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 20px;
+  margin-top: 30px;
+}
+.modal__overlay {
+  background-color: rgba(51, 51, 51, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+}
+.btn__wrapper {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+}

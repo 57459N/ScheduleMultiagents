@@ -1,0 +1,76 @@
+.select {
+  position: relative;
+  width: 200px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.select__box {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  justify-content: space-between; /* Разделяем текст и стрелку */
+  transition: border-color 0.3s ease;
+}
+
+.select__box:hover {
+  border-color: #007bff;
+}
+
+.select__label {
+  flex-grow: 1; /* Текст занимает всё доступное пространство */
+  text-align: left; /* Выравнивание текста слева */
+  color: #000;
+}
+
+.arrow {
+  font-size: 12px;
+  margin-left: auto; /* Стрелка отодвигается вправо */
+  transition: transform 0.3s ease;
+}
+
+.arrow__up {
+  transform: rotate(180deg);
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.option {
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}
+
+.option__selected {
+  background-color: #e6f7ff;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.checkmark {
+  font-size: 12px;
+  color: #007bff;
+}

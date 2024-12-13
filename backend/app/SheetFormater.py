@@ -1,14 +1,17 @@
+import subprocess
+import math
+import json
+
 import pandas as pd
-from entities import *
 import openpyxl as xl
 from openpyxl.styles import Alignment, PatternFill, Font
 from openpyxl.styles.borders import Border, Side
 from openpyxl.cell.text import InlineFont
 from openpyxl.cell.rich_text import TextBlock, CellRichText
-import subprocess
-import math
-import json
-from constants import *
+
+from backend.app.constants import *
+from backend.app.entities import *
+
 
 
 class SheetFormater():
@@ -141,6 +144,10 @@ class SheetFormater():
 
     def __fill_schedule(self):
         for i, group in enumerate(GROUPS):
+            # TODO: review
+            if self.schedule.get(group) is None:
+                continue
+            
             for j, id in enumerate(self.schedule[group].to_list()):
                 if math.isnan(id):
                     continue

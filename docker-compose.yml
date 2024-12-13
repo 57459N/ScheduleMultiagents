@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: .
+    container_name: backend
+    command: python -m backend
+    volumes:
+      - ./backend:/srv/app
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+      - frontend
+  frontend:
+    stdin_open: true
+    command: npm run dev
+    build:
+      context: ./schedule/
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./schedule:/app
+      - /app/node_modules
+
+
+networks:
+  backend:
+  frontend:

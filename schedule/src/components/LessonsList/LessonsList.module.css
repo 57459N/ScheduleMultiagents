@@ -1,0 +1,125 @@
+.lessons__box {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  width: 100%;
+  background-color: var(--grey);
+  border-radius: 50px;
+  padding: 30px 50px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 70px;
+}
+.action__btn {
+  background-color: transparent;
+  border: none;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.action__btn:hover {
+  transform: scale(1.2);
+}
+.btn {
+  cursor: pointer;
+  border: none;
+  padding: 14px 24px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  width: fit-content;
+  border-radius: 7px;
+  background-color: var(--primary);
+  color: var(--background);
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background-color: var(--hover-blue);
+  transform: scale(1.1);
+}
+.btn:focus {
+  background-color: var(--hover-blue);
+}
+.btn:active {
+  background-color: var(--focus-blue);
+}
+.title {
+  margin: 0;
+  color: var(--black);
+  margin-bottom: 30px;
+}
+.table {
+  display: flex;
+  /* max-width: 580px; */
+  width: 100%;
+  flex-direction: column;
+}
+.thead__tr {
+  display: flex;
+  gap: 55px;
+  font-size: 16px;
+  background-color: var(--primary);
+  padding: 20px 50px;
+  border-radius: 15px;
+  width: 100%;
+  color: var(--background);
+}
+.thead__th {
+  max-width: 200px;
+  /* padding: 0 20px 0 0; */
+}
+.tbody_tr {
+  display: flex;
+  cursor: pointer;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+  padding: 20px 50px;
+  border-bottom: 2px solid var(--light-blue);
+  transition: all 0.3s ease-in-out;
+}
+.tbody_tr:hover {
+  background-color: var(--light);
+}
+.tbody_tr:focus {
+  background-color: var(--light);
+}
+.tbody_tr:active {
+  background-color: var(--light-blue);
+}
+.tbody_td {
+  display: flex;
+  font-size: 13px;
+  color: var(--black);
+  max-width: 170px;
+  width: 100%;
+}
+.btn_wrapper {
+  display: flex;
+  padding: 40px 0 0 0;
+  gap: 20px;
+}
+@media (max-width: 1080px) {
+  .thead__tr {
+    gap: 90px;
+  }
+}
+@media (max-width: 1000px) {
+  .thead__tr {
+    gap: 70px;
+  }
+}
+@media (max-width: 920px) {
+  .thead__tr {
+    gap: 60px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 860px) {
+  .thead__tr {
+    gap: 50px;
+  }
+  .thead__th {
+    padding: 10px;
+  }
+}
