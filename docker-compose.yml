@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   backend:
-    image: Albaruth/backend:latest  # Используем образ из Docker Hub
+    image: albaruth/backend:latest 
     container_name: backend
     command: python -m backend
     ports:
@@ -11,7 +11,7 @@ services:
       - backend
       - frontend
   frontend:
-    image: AlbaRuth/frontend:latest  # Используем образ из Docker Hub
+    image: albaruth/frontend:latest
     stdin_open: true
     command: npm run dev
     ports:
