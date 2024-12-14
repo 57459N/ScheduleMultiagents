@@ -1,3 +1,4 @@
+from ScheduleGenerator import *
 from Generator import *
 from SheetFormater import *
 
@@ -5,15 +6,13 @@ from SheetFormater import *
 
 
 def main():
-    f = open('data/data.json', 'r', encoding="utf-8")
+    f = open('data/data.json', 'r')
     data = json.load(f)
-    print(data)
     f.close()
     lessons = Lessons(**data)
     gen = Generator(lessons.lessons, lessons.teachers)
     gen.generate_schedule()
-    gen.print_schedule()
-    gen.schedule_csv('data/schedule.csv')
+    gen.schedule_csv()
 
     formatter = SheetFormater('data/data.json', 'data/schedule.csv')
     formatter.format()

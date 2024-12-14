@@ -16,7 +16,7 @@ class SheetFormater():
         self.wb = xl.Workbook()
         self.ws = self.wb.active
 
-        f = open(data_path, 'r', encoding="utf-8")
+        f = open(data_path, 'r')
         data = json.load(f)
         f.close()
 
