@@ -1,27 +1,23 @@
+version: "3.9"
+
 services:
   backend:
-    build: .
+    image: Albaruth/backend:latest  # Используем образ из Docker Hub
     container_name: backend
     command: python -m backend
-    volumes:
-      - ./backend:/srv/app
     ports:
       - "8000:8000"
     networks:
       - backend
       - frontend
   frontend:
+    image: AlbaRuth/frontend:latest  # Используем образ из Docker Hub
     stdin_open: true
     command: npm run dev
-    build:
-      context: ./schedule/
-      dockerfile: Dockerfile
     ports:
       - '5173:5173'
-    volumes:
-      - ./schedule:/app
-      - /app/node_modules
-
+    networks:
+      - frontend
 
 networks:
   backend:
