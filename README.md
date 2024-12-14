@@ -8,5 +8,5 @@ python -m backend
 
 follow docker setup app: 
 ```
-docker compose up
+docker compose up --build
 ```
