@@ -23,6 +23,11 @@ class SheetFormater():
         data = json.load(f)
         f.close()
 
+
+        if isinstance(data, str):
+            data = json.loads(data)  
+        
+       
         self.lessons = Lessons(**data)
         self.schedule = pd.read_csv(schedule_path, sep=';')
 
