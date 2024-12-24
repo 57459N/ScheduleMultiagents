@@ -12,8 +12,6 @@ from openpyxl.cell.rich_text import TextBlock, CellRichText
 from backend.app.constants import *
 from backend.app.entities import *
 
-
-
 class SheetFormater():
     def __init__(self, data_path: str, schedule_path: str):
         self.wb = xl.Workbook()

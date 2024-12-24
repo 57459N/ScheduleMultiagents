@@ -17,17 +17,51 @@ const ScheduleGenerator = () => {
       if (!lessonsResponse.ok || !teachersResponse.ok) {
         throw new Error("Failed to fetch data from APIs");
       }
-
-      const lessons = await lessonsResponse.json();
-      const teachers = await teachersResponse.json();
-
+      const lessonsData = await lessonsResponse.json();
+      const teachersData = await teachersResponse.json();
+      
+      const lessons = lessonsData.map((lesson) => ({
+        id: Number(lesson.id), // Ensure id is an integer
+        group: lesson.group.map((group) => ({
+          group_id: Number(group.group_id),
+          flow: Number(group.flow),
+          speciality: group.speciality || "", // Default to empty string if undefined
+          number: String(group.number), // Ensure 'number' is sent as a string
+          subgroup: Number(group.subgroup),
+        })),
+        subject: {
+          sub_id: Number(lesson.subject.sub_id),
+          name: lesson.subject.name || "", // Default to empty string if undefined
+        },
+        type: lesson.type || "", // Ensure type is a string
+        length: Number(lesson.length),
+        teacher: Number(lesson.teacher),
+        is_set: Boolean(lesson.is_set), // Ensure is_set is a boolean
+      }));
+      
+      const teachers = teachersData.map((teacher) => ({
+        id: Number(teacher.id), // Ensure id is an integer
+        name: teacher.name || "", // Default to empty string if undefined
+        schedule: teacher.schedule.map((day) =>
+          day.map((hour) => Number(hour)) // Ensure all values in schedule are integers
+        ),
+      }));
+      
+      console.log({ lessons, teachers });
+      
       const response = await fetch(backendUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ lessons, teachers }),
+        body: JSON.stringify({ lessons, teachers }), // Send formatted data
       });
+      
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Error:", errorDetails);
+      }
+      
 
       if (!response.ok) {
         throw new Error("Failed to process data in the backend");
