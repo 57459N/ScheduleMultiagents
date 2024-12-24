@@ -2,23 +2,26 @@ version: "3.9"
 
 services:
   backend:
-    image: albaruth/backend:latest 
+    build:
+      context: .  # Путь к вашему проекту
+      dockerfile: Dockerfile  # Dockerfile бэкенда
     container_name: backend
-    command: python -m backend
+    command: python -m backend  # Команда для запуска бэкенда
     ports:
-      - "8000:8000"
+      - "8000:8000"  # Бэкенд слушает порт 8000
     networks:
-      - backend
-      - frontend
+      - app-network
+
   frontend:
-    image: albaruth/frontend:latest
-    stdin_open: true
-    command: npm run dev
+    build:
+      context: ./schedule  # Путь к фронтенду
+      dockerfile: Dockerfile  # Dockerfile фронтенда
+    container_name: frontend
+    command: npm run dev  # Команда для запуска фронтенда
     ports:
-      - '5173:5173'
+      - "5173:5173"  # Фронтенд слушает порт 5173
     networks:
-      - frontend
+      - app-network
 
 networks:
-  backend:
-  frontend:
+  app-network:
