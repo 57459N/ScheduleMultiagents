@@ -1,231 +1,263 @@
 import { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-import data from '../../previewData';
-import { groups as exportedGroups } from '../../data/data';
 import './GroupEditor.css';
-// import { useAppContext } from "../../src/AppContextProvider";
+import { MdFileDownloadDone } from 'react-icons/md';
+import { TiDelete } from 'react-icons/ti';
 
-Modal.setAppElement('#root');
+const GROUPS_API = 'https://67691307cbf3d7cefd397d7f.mockapi.io/schedule/groups';
+
+// API interaction functions
+const fetchGroups = async () => {
+  const response = await fetch(GROUPS_API);
+  const data = await response.json();
+  return data;
+};
+
+const addGroup = async (group) => {
+  const response = await fetch(GROUPS_API, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(group),
+  });
+  return await response.json();
+};
+
+const deleteGroup = async (id) => {
+  await fetch(`${GROUPS_API}/${id}`, {
+    method: 'DELETE',
+  });
+};
 
 const GroupsList = () => {
-  // const { groupsToLessons, setGroupsToLessons } = useAppContext();
-  const [groups, setGroups] = useState(data.groups);
+  const [groups, setGroups] = useState([]);
   const [expandedGroups, setExpandedGroups] = useState(new Set());
-  const [selectedGroup, setSelectedGroup] = useState(null);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [newSubgroup, setNewSubgroup] = useState(null);
+  const [activeElement, setActiveElement] = useState(null);
+  const [newGroupInputs, setNewGroupInputs] = useState({
+    flow: '',
+    specialty: '',
+    number: '',
+    subgroup: '',
+  });
 
-  const flowMapping = {
-    РФ: 1,
-    ФЭ: 1,
-    АРИСТ: 1,
-    КБ: 2,
-    ПИ: 2,
-  };
-
-  const groupIdMapping = {
-    '1 РФ': 1,
-    '2 РФ': 2,
-    '3 РФ': 3,
-    '4 РФ': 4,
-    '8 РФ': 5,
-    '3 ФЭ': 6,
-    '2 АРИСТ': 7,
-    '8 АРИСТ': 8,
-    '4 КБ': 9,
-    '5 КБ': 10,
-    '6 КБ': 11,
-    '7 КБ': 12,
-    '1 ПИ': 13,
-    '5 ПИ': 14,
-    '6 ПИ': 15,
-    '7 ПИ': 16,
-  };
-
-  const updateGroupsToLessons = (groups) => {
-    const result = [];
-
-    const traverse = (group, parentName, fullPath) => {
-      const { name, subgroups } = group;
-      const currentPath = fullPath ? `${fullPath} - ${name}` : name;
-
-      if (
-        ['подгруппа 1', 'подгруппа 2', 'подгруппа 3'].includes(name) &&
-        parentName in groupIdMapping
-      ) {
-        const speciality = parentName.match(/[А-Я]+/)?.[0];
-        const number = parentName.match(/\d+/)?.[0];
-        const subgroup = parseInt(name.replace('подгруппа ', ''), 10);
-
-        if (speciality && number && subgroup) {
-          result.push({
-            id: groupIdMapping[parentName],
-            flow: flowMapping[speciality],
-            speciality,
-            number,
-            subgroup,
-            name: currentPath,
-          });
-        }
-      }
-
-      subgroups.forEach((subgroup) => traverse(subgroup, name, currentPath));
+  useEffect(() => {
+    const loadGroups = async () => {
+      const data = await fetchGroups();
+      setGroups(data);
     };
+    loadGroups();
+  }, []);
 
-    groups.forEach((group) => traverse(group, '', ''));
-    exportedGroups.length = 0; // Очистка массива
-    exportedGroups.push(...result); // Обновление массива
-  };
-
-  const toggleExpand = (id) => {
+  const toggleExpand = (key) => {
     setExpandedGroups((prev) => {
       const newExpanded = new Set(prev);
-      if (newExpanded.has(id)) {
-        newExpanded.delete(id);
+      if (newExpanded.has(key)) {
+        newExpanded.delete(key);
+        setActiveElement(null);
       } else {
-        newExpanded.add(id);
+        newExpanded.add(key);
+        setActiveElement(key);
       }
       return newExpanded;
     });
   };
 
-  const handleDeleteGroup = () => {
-    const recursiveDelete = (groups, id) =>
-      groups
-        .filter((group) => group.id !== id)
-        .map((group) => ({
-          ...group,
-          subgroups: recursiveDelete(group.subgroups, id),
-        }));
-
-    const updatedGroups = recursiveDelete(groups, selectedGroup.id);
-    setGroups(updatedGroups);
-    data.groups = updatedGroups;
-    updateGroupsToLessons(updatedGroups);
-    setSelectedGroup(null);
-    setShowDeleteConfirmation(false);
+  const handleInputChange = (field, value) => {
+    setNewGroupInputs((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleAddSubgroup = (group) => {
-    setNewSubgroup({ parentId: group.id, name: '' });
-    setExpandedGroups((prev) => new Set(prev).add(group.id));
+  const handleAddGroup = async (parentGroup, level) => {
+    let newGroup = {};
+    if (level === 'flow') {
+      if (!newGroupInputs.flow) return;
+      newGroup = {
+        flow: newGroupInputs.flow,
+        specialty: null,
+        number: null,
+        subgroup: null,
+        name: `${newGroupInputs.flow} поток`,
+      };
+      setNewGroupInputs((prev) => ({ ...prev, flow: '' }));
+    } else if (level === 'specialty') {
+      if (!newGroupInputs.specialty) return;
+      newGroup = {
+        flow: parentGroup.flow,
+        specialty: newGroupInputs.specialty,
+        number: null,
+        subgroup: null,
+        name: `${newGroupInputs.specialty}`,
+      };
+      setNewGroupInputs((prev) => ({ ...prev, specialty: '' }));
+    } else if (level === 'number') {
+      if (!newGroupInputs.number) return;
+      newGroup = {
+        flow: parentGroup.flow,
+        specialty: parentGroup.specialty,
+        number: newGroupInputs.number,
+        subgroup: null,
+        name: `${newGroupInputs.number} ${parentGroup.specialty} `,
+      };
+      setNewGroupInputs((prev) => ({ ...prev, number: '' }));
+    } else if (level === 'subgroup') {
+      if (!newGroupInputs.subgroup) return;
+      newGroup = {
+        flow: parentGroup.flow,
+        specialty: parentGroup.specialty,
+        number: parentGroup.number,
+        subgroup: newGroupInputs.subgroup,
+        name: `${parentGroup.number} ${parentGroup.specialty} ( ${newGroupInputs.subgroup})`,
+      };
+      setNewGroupInputs((prev) => ({ ...prev, subgroup: '' }));
+    }
+
+    const addedGroup = await addGroup(newGroup);
+    setGroups((prev) => [...prev, addedGroup]);
   };
 
-  const handleSaveSubgroup = () => {
-    const addSubgroup = (groups, parentId, newSubgroup) =>
-      groups.map((group) =>
-        group.id === parentId
-          ? {
-              ...group,
-              subgroups: [
-                ...group.subgroups,
-                { id: Date.now(), name: newSubgroup.name, subgroups: [] },
-              ],
-            }
-          : { ...group, subgroups: addSubgroup(group.subgroups, parentId, newSubgroup) },
-      );
-
-    const updatedGroups = addSubgroup(groups, newSubgroup.parentId, newSubgroup);
-    setGroups(updatedGroups);
-    data.groups = updatedGroups;
-    updateGroupsToLessons(updatedGroups);
-    setNewSubgroup(null);
+  const handleDeleteGroup = async (id) => {
+    await deleteGroup(id);
+    setGroups((prev) => prev.filter((group) => group.id !== id));
   };
 
-  const renderGroups = (groups) =>
-    groups.map((group) => (
-      <div className="group-item" key={group.id}>
-        <div
-          className={`group-header ${selectedGroup?.id === group.id ? 'selected' : ''}`}
-          onClick={() => setSelectedGroup(group)}>
-          <span onClick={() => toggleExpand(group.id)}>
-            {group.subgroups.length > 0 && (expandedGroups.has(group.id) ? '▼' : '▶')}
-          </span>
-          {group.name}
+  const renderGroups = () => {
+    const grouped = groups.reduce((acc, group) => {
+      const { flow, specialty, number } = group;
+      if (!acc[flow]) acc[flow] = {};
+      if (specialty && !acc[flow][specialty]) acc[flow][specialty] = {};
+      if (number && !acc[flow][specialty][number]) acc[flow][specialty][number] = [];
+      if (group.subgroup) acc[flow][specialty][number].push(group);
+      return acc;
+    }, {});
+
+    return Object.entries(grouped).map(([flow, specialties]) => (
+      <div key={flow} className="item">
+        <div className="header" onClick={() => toggleExpand(flow)}>
+          <span>{expandedGroups.has(flow) ? '▼' : '▶'}</span> Поток {flow}
+          <button
+            className="btn"
+            onClick={() => handleDeleteGroup(groups.find((g) => g.flow === flow)?.id)}>
+            <TiDelete size={23} color="#0a3470" />
+          </button>
         </div>
-
-        {newSubgroup?.parentId === group.id && (
-          <div className="add-subgroup">
+        {expandedGroups.has(flow) && (
+          <div className="input-wrapper">
             <input
-              className="add-subgroup-input"
+              className="input"
               type="text"
-              value={newSubgroup.name}
-              onChange={(e) => setNewSubgroup((prev) => ({ ...prev, name: e.target.value }))}
-              placeholder="Введите название подгруппы"
+              value={newGroupInputs.specialty}
+              onChange={(e) => handleInputChange('specialty', e.target.value)}
+              placeholder="Специальность"
             />
-            <div className="add-subgroup-buttons">
-              <button className="add-subgroup-buttons__btn" onClick={handleSaveSubgroup}>
-                ✔
-              </button>
-              <button
-                className="add-subgroup-buttons__btn add-subgroup-buttons__btn_red"
-                onClick={() => setNewSubgroup(null)}>
-                ✘
-              </button>
-            </div>
+            <button className="btn" onClick={() => handleAddGroup({ flow }, 'specialty')}>
+              <MdFileDownloadDone size={25} color="#0a3470" />
+            </button>
           </div>
         )}
-
-        {expandedGroups.has(group.id) && group.subgroups.length > 0 && (
-          <div>{renderGroups(group.subgroups)}</div>
-        )}
+        {expandedGroups.has(flow) &&
+          Object.entries(specialties).map(([specialty, numbers]) => (
+            <div key={specialty} className="item">
+              <div className="header" onClick={() => toggleExpand(`${flow}-${specialty}`)}>
+                <span>{expandedGroups.has(`${flow}-${specialty}`) ? '▼' : '▶'}</span> {specialty}
+                <button
+                  className="btn"
+                  onClick={() =>
+                    handleDeleteGroup(
+                      groups.find((g) => g.flow === flow && g.specialty === specialty)?.id,
+                    )
+                  }>
+                  <TiDelete size={23} color="#0a3470" />
+                </button>
+              </div>
+              {expandedGroups.has(`${flow}-${specialty}`) && (
+                <div className="input-wrapper">
+                  <input
+                    className="input"
+                    type="text"
+                    value={newGroupInputs.number}
+                    onChange={(e) => handleInputChange('number', e.target.value)}
+                    placeholder="Номер группы"
+                  />
+                  <button
+                    className="btn"
+                    onClick={() => handleAddGroup({ flow, specialty }, 'number')}>
+                    <MdFileDownloadDone size={25} color="#0a3470" />
+                  </button>
+                </div>
+              )}
+              {expandedGroups.has(`${flow}-${specialty}`) &&
+                Object.entries(numbers).map(([number, subgroups]) => (
+                  <div key={number} className="item">
+                    <div
+                      className="header"
+                      onClick={() => toggleExpand(`${flow}-${specialty}-${number}`)}>
+                      <span>
+                        {expandedGroups.has(`${flow}-${specialty}-${number}`) ? '▼' : '▶'}
+                      </span>{' '}
+                      Номер {number}
+                      <button
+                        className="btn"
+                        onClick={() =>
+                          handleDeleteGroup(
+                            groups.find(
+                              (g) =>
+                                g.flow === flow && g.specialty === specialty && g.number === number,
+                            )?.id,
+                          )
+                        }>
+                        <TiDelete size={23} color="#0a3470" />
+                      </button>
+                    </div>
+                    {expandedGroups.has(`${flow}-${specialty}-${number}`) && (
+                      <div className="input-wrapper">
+                        <input
+                          className="input"
+                          type="text"
+                          value={newGroupInputs.subgroup}
+                          onChange={(e) => handleInputChange('subgroup', e.target.value)}
+                          placeholder="Название подгруппы"
+                        />
+                        <button
+                          className="btn"
+                          onClick={() => handleAddGroup({ flow, specialty, number }, 'subgroup')}>
+                          <MdFileDownloadDone size={25} color="#0a3470" />
+                        </button>
+                      </div>
+                    )}
+                    {expandedGroups.has(`${flow}-${specialty}-${number}`) &&
+                      subgroups.map((subgroup) => (
+                        <div key={subgroup.id} className="subgroup">
+                          {subgroup.subgroup}{' '}
+                          <button className="btn" onClick={() => handleDeleteGroup(subgroup.id)}>
+                            <TiDelete size={23} color="#0a3470" />
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                ))}
+            </div>
+          ))}
       </div>
     ));
+  };
 
   return (
     <div className="group-editor">
       <h2>Редактор списка групп</h2>
       <div className="group-editor-content">
-        <div className="group-list">
-          <h3>Список групп</h3>
-          {renderGroups(groups)}
-          <div className="group-list-buttons">
-            <button
-              className="group-list-buttons-btn"
-              onClick={() =>
-                selectedGroup
-                  ? handleAddSubgroup(selectedGroup)
-                  : alert('Выберите группу для добавления подгруппы')
-              }>
-              Добавить
-            </button>
-            <button
-              className="group-list-buttons-btn group-list-buttons-btn_red"
-              onClick={() =>
-                selectedGroup
-                  ? setShowDeleteConfirmation(true)
-                  : alert('Выберите группу для удаления')
-              }>
-              Удалить
-            </button>
-          </div>
+        {renderGroups()}
+        <div className="input-wrapper">
+          <input
+            className="input"
+            type="text"
+            value={newGroupInputs.flow}
+            onChange={(e) => handleInputChange('flow', e.target.value)}
+            placeholder="Номер потока"
+          />
+          <button className="btn" onClick={() => handleAddGroup(null, 'flow')}>
+            <MdFileDownloadDone size={25} color="#0a3470" />
+          </button>
         </div>
       </div>
-
-      <Modal
-        isOpen={showDeleteConfirmation}
-        onRequestClose={() => setShowDeleteConfirmation(false)}
-        className="modal">
-        <h3>Подтверждение удаления</h3>
-        <div className="modal-content">
-          <p>
-            Вы уверены, что хотите удалить группу "{selectedGroup?.name}"? Все её подгруппы также
-            будут удалены.
-          </p>
-          <div className="actions">
-            <button
-              className="group-list-buttons-btn group-list-buttons-btn_red"
-              onClick={handleDeleteGroup}>
-              Удалить
-            </button>
-            <button
-              className="group-list-buttons-btn"
-              onClick={() => setShowDeleteConfirmation(false)}>
-              Отмена
-            </button>
-          </div>
-        </div>
-      </Modal>
     </div>
   );
 };

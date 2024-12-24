@@ -9,6 +9,16 @@ const LessonsList = ({ lessonsLst, onAddClick, onEditClick, onDeleteClick, teach
     return teachers.find((teacher) => teacher.id === id)?.name || 'Неизвестно';
   };
 
+  // Формируем название группы, исключая свойства с null
+  const getGroupName = (group) => {
+    const groupParts = [];
+    if (group.flow) groupParts.push(`${group.flow} поток`);
+    if (group.speciality) groupParts.push(group.speciality);
+    if (group.number) groupParts.push(group.number);
+    if (group.subgroup) groupParts.push(`${group.subgroup}`);
+    return groupParts.join('-');
+  };
+
   return (
     <div className={styles.lessons__box}>
       <h2>Список занятий</h2>
@@ -27,12 +37,7 @@ const LessonsList = ({ lessonsLst, onAddClick, onEditClick, onDeleteClick, teach
           {lessonsLst.map((lesson) => (
             <tr className={styles.tbody_tr} key={lesson.id}>
               <td className={styles.tbody_td}>
-                {lesson.group
-                  .map(
-                    (group) =>
-                      `${group.flow}-${group.speciality}-${group.number} (подгр. ${group.subgroup})`,
-                  )
-                  .join(', ')}
+                {lesson.group.map((group) => getGroupName(group)).join(', ')}
               </td>
               <td className={styles.tbody_td}>{lesson.subject.name}</td>
               <td className={styles.tbody_td}>{lesson.type}</td>

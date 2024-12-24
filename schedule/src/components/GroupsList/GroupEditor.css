@@ -170,3 +170,41 @@
 .modal-content {
   padding: 20px;
 }
+.group-editor-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 30px 40px;
+}
+.header {
+  display: flex;
+  gap: 15px;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.input-wrapper {
+  display: flex;
+  gap: 15px;
+}
+.input {
+  width: 150px;
+  padding: 10px 10px;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: var(--primary);
+  transition: all 0.2s ease-in-out;
+}
+.btn {
+  border: none;
+  background-color: transparent;
+  padding: 0px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  transform: scale(1.1);
+}

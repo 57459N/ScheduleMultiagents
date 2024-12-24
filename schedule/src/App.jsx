@@ -1,3 +1,4 @@
+// Import dependencies
 import { useState, useEffect } from 'react';
 import Header from './components/Header/Header';
 import LessonsList from './components/LessonsList/LessonsList';
@@ -7,12 +8,13 @@ import TeachersList from './components/TeachersList/TeachersList';
 import TeachersTime from './components/teachersTime/TeachersTime';
 import GroupsList from './components/GroupsList/GroupsList';
 import styles from './App.module.css';
-import { groups, subjects, typeOfLessons, lengthOfLessons } from './data/data';
+import { typeOfLessons, lengthOfLessons } from './data/data';
 import TableLoader from './components/TableLoader/TableLoader';
-//import AppContextProvider from './AppContextProvider';
 
 const LESSONS_API = 'https://6704e89a031fd46a830ddca4.mockapi.io/lessons';
 const TEACHERS_API = 'https://6704e89a031fd46a830ddca4.mockapi.io/teachers';
+const GROUPS_API = 'https://67691307cbf3d7cefd397d7f.mockapi.io/schedule/groups';
+const SUBJECTS_API = 'https://67691307cbf3d7cefd397d7f.mockapi.io/schedule/subjects';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +23,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState('lessonsList');
   const [lessonsLst, setLessonsLst] = useState([]);
   const [teachers, setTeachers] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
@@ -28,25 +32,39 @@ function App() {
   // Fetch initial data
   useEffect(() => {
     setIsLoading(true);
-    fetch(LESSONS_API)
-      .then((res) => res.json())
-      .then(setLessonsLst)
-      .catch((err) => console.error('Failed to fetch lessons:', err));
 
-    fetch(TEACHERS_API)
-      .then((res) => res.json())
-      .then(setTeachers)
-      .then(() => setIsLoading(false))
-      .catch((err) => console.error('Failed to fetch teachers:', err));
-    //setIsLoading(false);
+    const fetchData = async () => {
+      try {
+        const [lessonsRes, teachersRes, groupsRes, subjectsRes] = await Promise.all([
+          fetch(LESSONS_API),
+          fetch(TEACHERS_API),
+          fetch(GROUPS_API),
+          fetch(SUBJECTS_API),
+        ]);
+
+        const lessonsData = await lessonsRes.json();
+        const teachersData = await teachersRes.json();
+        const groupsData = await groupsRes.json();
+        const subjectsData = await subjectsRes.json();
+
+        setLessonsLst(lessonsData);
+        setTeachers(teachersData);
+        setGroups(groupsData);
+        setSubjects(subjectsData);
+      } catch (err) {
+        console.error('Failed to fetch data:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // Add a new lesson
   const addLesson = async (newLesson) => {
     try {
-      // Prepare data for API
       const lessonToSend = formatLessonDataForApi(newLesson);
-      console.log('Lesson to send:', lessonToSend);
       const response = await fetch(LESSONS_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -59,6 +77,7 @@ function App() {
       console.error('Failed to add lesson:', err);
     }
   };
+
   const addTeacher = async (newTeacher) => {
     try {
       const response = await fetch(TEACHERS_API, {
@@ -66,7 +85,6 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTeacher),
       });
-
       const createdTeacher = await response.json();
       setTeachers((prev) => [...prev, createdTeacher]);
     } catch (err) {
@@ -83,6 +101,7 @@ function App() {
       console.error('Ошибка при удалении преподавателя:', err);
     }
   };
+
   const updateTeacherSchedule = async (teacherId, schedule) => {
     try {
       const response = await fetch(`${TEACHERS_API}/${teacherId}`, {
@@ -102,7 +121,6 @@ function App() {
   // Update an existing lesson
   const updateLesson = async (updatedLesson) => {
     try {
-      // Prepare data for API
       const lessonToSend = formatLessonDataForApi(updatedLesson);
       const response = await fetch(`${LESSONS_API}/${updatedLesson.id}`, {
         method: 'PUT',
@@ -131,13 +149,8 @@ function App() {
     }
   };
 
-  // Function to format the lesson data before sending to API
   const formatLessonDataForApi = (lesson) => {
-    console.log('Lesson:', lesson);
-    console.log('Group:', lesson.group);
-
     return {
-      //...lesson,
       id: lesson.id,
       group: [
         {
@@ -145,7 +158,7 @@ function App() {
           flow: lesson.group.flow,
           speciality: lesson.group.specialty,
           number: lesson.group.number,
-          subgroup: lesson.group.subgroup, // Assuming you pick the first subgroup
+          subgroup: lesson.group.subgroup,
         },
       ],
       subject: {
@@ -160,13 +173,6 @@ function App() {
 
   const renderPage = () => {
     switch (currentPage) {
-      // case 'teachersTime':
-      //   return (
-      //     selectedTeacher && (
-
-      //     )
-      //   );
-
       case 'teachersList':
         return (
           <TeachersList
@@ -181,7 +187,6 @@ function App() {
         return <GroupsList />;
       case 'lessonsList':
         return (
-          // <TableLoader/>
           <LessonsList
             lessonsLst={lessonsLst}
             teachers={teachers}

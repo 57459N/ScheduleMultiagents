@@ -3,6 +3,8 @@ import styles from './AddLessonForm.module.css';
 import Select from './Select';
 import ReactModal from 'react-modal';
 
+const SUBJECTS_API = 'https://67691307cbf3d7cefd397d7f.mockapi.io/schedule/subjects';
+
 const AddLessonForm = ({
   groups,
   subjects,
@@ -22,6 +24,8 @@ const AddLessonForm = ({
     teacher: '',
   });
 
+  const [subjectsList, setSubjectsList] = useState(subjects);
+
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
@@ -39,6 +43,22 @@ const AddLessonForm = ({
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
+  const handleAddSubject = async (newSubject) => {
+    try {
+      const response = await fetch(SUBJECTS_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newSubject),
+      });
+      const createdSubject = await response.json();
+      setSubjectsList((prev) => [...prev, createdSubject]);
+      return createdSubject;
+    } catch (err) {
+      console.error('Ошибка при добавлении предмета:', err);
+      throw err;
+    }
+  };
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -53,18 +73,32 @@ const AddLessonForm = ({
           <Select
             options={groups}
             value={formData.group}
-            //multiple={true}
             onSelect={(value) => handleChange('group', value)}
           />
         </div>
         {/* Subject */}
         <div className={styles.select__wrapper}>
           <label>Предмет</label>
-          <Select
-            options={subjects}
-            value={formData.subject}
-            onSelect={(value) => handleChange('subject', value)}
-          />
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              value={formData.subject.name || ''}
+              onChange={(e) => handleChange('subject', { id: null, name: e.target.value })}
+              onBlur={async () => {
+                const inputValue = formData.subject.name?.trim();
+                if (inputValue && !subjectsList.some((subj) => subj.name === inputValue)) {
+                  try {
+                    const newSubject = await handleAddSubject({ name: inputValue });
+                    handleChange('subject', newSubject);
+                  } catch (err) {
+                    console.error('Ошибка при добавлении предмета:', err);
+                  }
+                }
+              }}
+              placeholder="Введите название предмета"
+              className={styles.input}
+            />
+          </div>
         </div>
         {/* Type */}
         <div className={styles.select__wrapper}>

@@ -68,3 +68,18 @@
   flex-direction: column;
   gap: 20px;
 }
+.inputWrapper {
+  width: 200px;
+}
+.input {
+  width: 200px;
+  padding: 10px 10px;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: var(--primary);
+  transition: all 0.2s ease-in-out;
+}
+.input:hover {
+  border-color: #007bff;
+}
